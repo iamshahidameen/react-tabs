@@ -55,7 +55,7 @@ function App() {
                 return (
                   <button
                     key={id}
-                    className="job-btn"
+                    className={`job-btn ${job.id === id ? 'active-btn' : ''}`}
                     onClick={() => filterJob(job.company)}
                   >
                     {job.company}
