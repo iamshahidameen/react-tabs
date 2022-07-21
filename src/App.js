@@ -7,7 +7,8 @@ const url = 'https://course-api.com/react-tabs-project';
 function App() {
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
-  const [selectedJob, setSelectedJob] = useState([]);
+  const [value, setValue] = useState(0);
+  const [allJobs, setAllJobs] = useState([]);
 
   // fetch(url)
   //   .then((resp) => resp.json())
@@ -17,7 +18,7 @@ function App() {
     const resp = await fetch(url);
     const data = await resp.json();
     setJobs(data);
-    setSelectedJob(data[0]);
+    setAllJobs(data);
     setLoading(false);
   }
   useEffect(() => {
@@ -25,20 +26,17 @@ function App() {
   }, []);
   console.log(jobs, 'all jobs');
 
-  console.log(selectedJob, 'selected Jobs');
-  //;
-
   function filterJob(clickedJob) {
-    const newJob = jobs.filter((job) => job.company === clickedJob);
-    setSelectedJob(newJob[0], 'this is new job');
-    console.log(newJob[0], 'this is new job');
+    //const newJob = jobs.filter((job) => index === clickedJob);
+    //setSelectedJob(newJob[0], 'this is new job');
+    setValue(clickedJob);
   }
-  const { id, company, dates, title } = selectedJob;
-  // setJobDuties(selectedJob.duties);
-  // console.log(jobDuties, 'job duties');
+
   if (loading) {
     return <h2>Content Is Being loaded</h2>;
   }
+  //const { id, company, dates, title } = selectedJob;
+  const { id, company, dates, title, duties } = jobs[value];
   if (jobs) {
     return (
       <>
@@ -49,14 +47,12 @@ function App() {
           </div>
           <div className="jobs-center">
             <div className="btn-container">
-              {jobs.map((job, index) => {
-                console.log(job, 'new console check');
-
+              {allJobs.map((job, index) => {
                 return (
                   <button
                     key={id}
                     className={`job-btn ${job.id === id ? 'active-btn' : ''}`}
-                    onClick={() => filterJob(job.company)}
+                    onClick={() => filterJob(index)}
                   >
                     {job.company}
                   </button>
@@ -68,7 +64,7 @@ function App() {
                 <h3>{title}</h3>
                 <h4>{company}</h4>
                 <p className="job-date">{dates}</p>
-                {selectedJob.duties.map((duty) => {
+                {duties.map((duty) => {
                   return (
                     <div className="job-desc">
                       <FaAngleDoubleRight className="job-icon" />
