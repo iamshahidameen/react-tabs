@@ -5,12 +5,23 @@ import { FaAngleDoubleRight } from 'react-icons/fa';
 const url = 'https://course-api.com/react-tabs-project';
 
 function App() {
-  const [details, setDetails] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [selectedJob, setSelectedJob] = useState([]);
   useEffect(() => {
-    const userData = fetch(url)
+    fetch(url)
       .then((resp) => resp.json())
-      .then((data) => setDetails(data));
+      .then((data) => setJobs(data));
   }, []);
+  console.log(jobs, 'all jobs');
+
+  console.log(selectedJob, 'selected Jobs');
+  //;
+
+  function filterJob(clickedJob) {
+    const newJob = jobs.filter((job) => job.company === clickedJob);
+    setSelectedJob(newJob);
+  }
+
   return (
     <>
       <section className="section">
@@ -20,12 +31,25 @@ function App() {
         </div>
         <div className="jobs-center">
           <div className="btn-container">
-            <button className="job-btn active-btn">TOMMY</button>
+            {jobs.map((job, index) => {
+              //console.log(job);
+
+              return (
+                <button
+                  key={index}
+                  className="job-btn"
+                  onClick={() => filterJob(job.company)}
+                >
+                  {job.company}
+                </button>
+              );
+            })}
           </div>
           <article className="job-info">
             <h3>Full Stack Web Developer</h3>
             <h4>TOMMY</h4>
             <p className="job-date">December 2015 - Present</p>
+            {/* {selectedJob ? console.log(selectedJob.title, 'yessss') : ''} */}
             <div className="job-desc">
               <FaAngleDoubleRight className="job-icon" />
               <p>
