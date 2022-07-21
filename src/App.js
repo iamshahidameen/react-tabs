@@ -72,11 +72,7 @@ function App() {
                   return (
                     <div className="job-desc">
                       <FaAngleDoubleRight className="job-icon" />
-                      <p>
-                        Tote bag sartorial mlkshk air plant vinyl banjo
-                        lumbersexual poke leggings offal cold-pressed brunch
-                        neutra. Hammock photo booth live-edge disrupt.
-                      </p>
+                      <p>{duty}</p>
                     </div>
                   );
                 })}
