@@ -8,7 +8,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
   const [value, setValue] = useState(0);
-  const [allJobs, setAllJobs] = useState([]);
+  const [tabs, setTabs] = useState([]);
 
   // fetch(url)
   //   .then((resp) => resp.json())
@@ -18,13 +18,12 @@ function App() {
     const resp = await fetch(url);
     const data = await resp.json();
     setJobs(data);
-    setAllJobs(data);
+    setTabs(data);
     setLoading(false);
   }
   useEffect(() => {
     getApiData();
   }, []);
-  console.log(jobs, 'all jobs');
 
   function filterJob(clickedJob) {
     //const newJob = jobs.filter((job) => index === clickedJob);
@@ -35,8 +34,9 @@ function App() {
   if (loading) {
     return <h2>Content Is Being loaded</h2>;
   }
+
   //const { id, company, dates, title } = selectedJob;
-  const { id, company, dates, title, duties } = jobs[value];
+  const { id, company, dates, title, duties, order } = jobs[value];
   if (jobs) {
     return (
       <>
@@ -47,14 +47,15 @@ function App() {
           </div>
           <div className="jobs-center">
             <div className="btn-container">
-              {allJobs.map((job, index) => {
+              {tabs.map((tab, index) => {
+                const { id } = tab;
                 return (
                   <button
                     key={id}
-                    className={`job-btn ${job.id === id ? 'active-btn' : ''}`}
+                    className={`job-btn ${value === index ? 'active-btn' : ''}`}
                     onClick={() => filterJob(index)}
                   >
-                    {job.company}
+                    {tab.company}
                   </button>
                 );
               })}
